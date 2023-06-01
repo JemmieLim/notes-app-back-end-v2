@@ -53,7 +53,7 @@ class AuthenticationsHandler {
     await this._authenticationsService.deleteRefreshToken(refreshToken);
     return {
       status: 'success',
-      message: 'Refresh Token berhasil dihapus',
+      message: 'Refresh token berhasil dihapus',
     };
   }
 }
