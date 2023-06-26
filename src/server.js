@@ -1,12 +1,14 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
-const notes = require('./api/notes');
-const users = require('./api/users');
-const authentications = require('./api/authentications');
-const collaborations = require('./api/collaborations');
+const notes = require('./api/notes/index');
+const users = require('./api/users/index');
+const authentications = require('./api/authentications/index');
+const collaborations = require('./api/collaborations/index');
+const _exports = require('./api/exports/index');
 const AuthenticationsService = require('./services/postgres/AuthenticationsService');
 const AuthenticationsValidator = require('./validator/authentications');
 const NotesService = require('./services/postgres/NotesService');
@@ -17,6 +19,8 @@ const CollaborationsService = require('./services/postgres/CollaborationsService
 const CollaborationsValidator = require('./validator/collaborations/index');
 const ClientError = require('./exceptions/ClientError');
 const TokenManager = require('./tokenize/TokenManager');
+const ProducerService = require('./services/rabbitmq/ProducerService');
+const ExportsValidator = require('./validator/exports/index');
 
 const init = async () => {
   const collaborationsService = new CollaborationsService();
@@ -87,6 +91,13 @@ const init = async () => {
           collaborationsService,
           notesService,
           validator: CollaborationsValidator,
+        },
+      },
+      {
+        plugin: _exports,
+        options: {
+          service: ProducerService,
+          validator: ExportsValidator,
         },
       },
     ],
