@@ -23,7 +23,7 @@ const ClientError = require('./exceptions/ClientError');
 const TokenManager = require('./tokenize/TokenManager');
 const ProducerService = require('./services/rabbitmq/ProducerService');
 const ExportsValidator = require('./validator/exports/index');
-const StorageService = require('./services/storage/StorageService');
+const StorageService = require('./services/S3/StorageService');
 const uploads = require('./api/uploads');
 const UploadsValidator = require('./validator/uploads/index');
 
